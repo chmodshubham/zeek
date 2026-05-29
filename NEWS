@@ -72,6 +72,9 @@ Changed Functionality
 - The ``extension_signature_algorithm`` event previously was incorrectly raised when a
   CertificateRequest message was encountered. It now is not raised for CertificateRequest messages.
 
+- The buffering state of a logging stream set via ``Log::set_buf()`` is now inherited
+  by writers created dynamically at runtime after the ``Log::set_buf()`` call.
+
 Deprecated Functionality
 ------------------------
 
