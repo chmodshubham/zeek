@@ -219,8 +219,14 @@ jobs:
       enable_tests:
         type: boolean
         default: true
+      enable_fuzzer_tests:
+        type: boolean
+        default: false
       enable_benchmarks:
         # TODO: create the benchmarker steps
+        type: boolean
+        default: false
+      enable_coverage:
         type: boolean
         default: false
       install_spicy_analyzers:
@@ -301,6 +307,18 @@ jobs:
                 command: ci/test.sh
             - store_test_results:
                 path: btest-results
+      - when:
+          condition: << parameters.enable_fuzzer_tests >>
+          steps:
+            - run:
+                name: Test fuzzers
+                command: ci/test-fuzzers.sh
+      - when:
+          condition: << parameters.enable_coverage >>
+          steps:
+            - run:
+                name: Run coverage
+                command: ci/upload-coverage.sh
       - when:
           condition: << parameters.install_spicy_analyzers >>
           steps:
@@ -922,6 +940,10 @@ workflows:
           configure_flags: --build-type=debug --disable-broker-tests --sanitizers=address --enable-fuzzers --enable-coverage --ccache --enable-werror
           # https://circleci.com/changelog/introducing-gen2-docker-x86-resource-classes/
           resource_class: xlarge
+          enable_coverage: true
+          enable_fuzzer_tests: true
+          context:
+            - zeek
           requires: [fetch-test-traces, build-image-ubuntu-24.04]
           extra_env: |
             CXXFLAGS=-DZEEK_DICT_DEBUG
