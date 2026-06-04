@@ -153,5 +153,5 @@ else
 
     coveralls_cmd="${coveralls_cmd} ${COVERAGE_FILE_CLEAN}"
 
-    verify_run "${coveralls_cmd}"
+#    verify_run "${coveralls_cmd}"
 fi
