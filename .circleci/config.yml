@@ -421,6 +421,7 @@ jobs:
       - run:
           name: Set extra environment variables
           command: |
+            echo "export PATH=${PATH}:${HOME}/.local/bin" >> "$BASH_ENV"
             echo "export ZEEK_CI_WORKING_DIR=${CIRCLE_WORKING_DIRECTORY}" >> "$BASH_ENV"
       - clone_repo
       - run:
